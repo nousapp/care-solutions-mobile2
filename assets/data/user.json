@@ -1,0 +1,26 @@
+[
+	{
+		"id" : 1,
+		"firstname" : "John",
+		"middlename" : "A",
+		"lastname" : "Doe",
+		"user_id" : "admin",
+		"password" : "1234",
+		"role" : "admin",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Doe, John A"
+	},
+	{
+		"id" : 2,
+		"firstname" : "Jane",
+		"middlename" : "B",
+		"lastname" : "Doe",
+		"user_id" : "caregiver",
+		"password" : "1234",
+		"role" : "staff",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Doe, Jane B"
+	}
+]

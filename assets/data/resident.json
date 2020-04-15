@@ -1,0 +1,57 @@
+[
+	{
+		"id" : 1,
+		"firstname" : "Gloria ",
+		"middlename" : "",
+		"lastname" : "Edwards",
+		"resident_id" : "GE101",
+		"room" : "101",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Edwards, Gloria "
+	},
+	{
+		"id" : 2,
+		"firstname" : "Judith",
+		"middlename" : "",
+		"lastname" : "Bell",
+		"resident_id" : "JB119",
+		"room" : "119",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Bell, Judith"
+	},
+	{
+		"id" : 3,
+		"firstname" : "Johanna",
+		"middlename" : "",
+		"lastname" : "Soluk",
+		"resident_id" : "JS103",
+		"room" : "103",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Soluk, Johanna"
+	},
+	{
+		"id" : 4,
+		"firstname" : "Lee",
+		"middlename" : "",
+		"lastname" : "Abrams",
+		"resident_id" : "LA245",
+		"room" : "245",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Abrams, Lee"
+	},
+	{
+		"id" : 5,
+		"firstname" : "Robin",
+		"middlename" : "",
+		"lastname" : "Steffan",
+		"resident_id" : "RS102",
+		"room" : "102",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Steffan, Robin"
+	}
+]
