@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'login.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:care_solutions/models.dart';
-import 'dart:convert';
+import 'package:care_solutions/util/context.dart';
+import 'package:care_solutions/util/session.dart';
 
 class Scanner extends StatelessWidget {
   @override
@@ -21,9 +19,7 @@ class Scanner extends StatelessWidget {
               (Route<dynamic> route) => false,
             );
           },
-          child: Center(
-            child: Text("Logout"),
-          ),
+          child: Icon(Icons.exit_to_app),
         ),
         backgroundColor: Color(0xFF293D50),
       ),
@@ -44,18 +40,12 @@ class ScannerBodyState extends State<ScannerBody> {
   final _searchKey = GlobalKey<FormState>();
 
   Future<String> _getCurrentUserRole() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String out = pref.getString('role');
+    String out = await Session.getKey('role');
     return out;
   }
 
   void _searchResident(String keyword) async {
-    String jsonString =
-        await rootBundle.loadString('assets/data/resident.json');
-
-    var residents = (json.decode(jsonString) as List)
-        .map((i) => Resident.fromJson(i))
-        .toList();
+    var residents = await Resident.getAll();
     var searchresult = residents
         .where((resident) =>
             resident.firstname.toLowerCase().contains(keyword.toLowerCase()) ||
@@ -70,12 +60,7 @@ class ScannerBodyState extends State<ScannerBody> {
   }
 
   Future<List<Transaction>> _getTransactions(String residentId) async {
-    String jsonString =
-        await rootBundle.loadString('assets/data/transaction.json');
-
-    var transactions = (json.decode(jsonString) as List)
-        .map((i) => Transaction.fromJson(i))
-        .toList();
+    var transactions = await Transaction.getAll();
     var renderedservices = transactions
         .where((transaction) => transaction.residentid == residentId)
         .toList();
@@ -88,16 +73,60 @@ class ScannerBodyState extends State<ScannerBody> {
       MaterialPageRoute<void>(
         builder: (BuildContext context) {
           return Scaffold(
+            endDrawer: Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                children: [
+                  Container(
+                    height: 90,
+                    child: DrawerHeader(
+                      child: Center(
+                        child: Text(resident.sortname,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              decoration: TextDecoration.underline,
+                            )),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          topLeft: Radius.circular(8)),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        '1. Performance Service',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {},
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8)),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        '2. Incident Report',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
             appBar: AppBar(
               centerTitle: true,
               title: Text('Rendered Services'),
-              actions: <Widget>[
-                // Add 3 lines from here...
-                IconButton(
-                  icon: Icon(Icons.list),
-                  onPressed: () => {},
-                ),
-              ],
               backgroundColor: Color(0xFF293D50),
               leading: new IconButton(
                 icon: new Icon(Icons.arrow_back, color: Colors.white),

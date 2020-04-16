@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "service_code": "Bath",
+        "service_name": "Bath",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 2,
+        "service_code": "QChk",
+        "service_name": "Q Check",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 3,
+        "service_code": "SupVisit",
+        "service_name": "Supervisor Visit",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 4,
+        "service_code": "Hydration",
+        "service_name": "Hydration",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 5,
+        "service_code": "IncontCare",
+        "service_name": "Incontinent Care",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 6,
+        "service_code": "Nourishment",
+        "service_name": "Nourishment",
+        "created_date": "",
+        "updated_date": ""
+    },
+    {
+        "id": 7,
+        "service_code": "Mobility",
+        "service_name": "Mobility",
+        "created_date": "",
+        "updated_date": ""
+    }
+]

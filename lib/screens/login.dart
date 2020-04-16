@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'scanner.dart';
-import 'dart:convert';
-import 'package:care_solutions/models.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:care_solutions/util/context.dart';
+import 'package:care_solutions/util/session.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -36,19 +34,14 @@ class LoginBodyState extends State<LoginBody> {
     });
     if (_loginKey.currentState.validate()) {
       //Authenticate here
-      String jsonString = await rootBundle.loadString('assets/data/user.json');
-
-      var users = (json.decode(jsonString) as List)
-          .map((i) => User.fromJson(i))
-          .toList();
+      var users = await User.getAll();
       var loginuser = users
           .where((user) =>
               user.userid == _usernameController.text &&
               user.password == _passwordController.text)
           .toList();
       if (loginuser.length > 0) {
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('role', loginuser[0].role);
+        Session.setKey('role', loginuser[0].role);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Scanner()),

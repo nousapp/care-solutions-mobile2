@@ -1,3 +1,6 @@
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+
 class User {
   final int id;
   final String firstname;
@@ -34,7 +37,14 @@ class User {
         "updated_date": updateddate,
         "sortname": sortname
       };
+  static Future<List<User>> getAll() async {
+    String jsonString = await rootBundle.loadString('assets/data/user.json');
+    var users =
+        (json.decode(jsonString) as List).map((i) => User.fromJson(i)).toList();
+    return users;
+  }
 }
+
 class Resident {
   final int id;
   final String firstname;
@@ -68,6 +78,15 @@ class Resident {
         "updated_date": updateddate,
         "sortname": sortname
       };
+  static Future<List<Resident>> getAll() async {
+    String jsonString =
+        await rootBundle.loadString('assets/data/resident.json');
+
+    var residents = (json.decode(jsonString) as List)
+        .map((i) => Resident.fromJson(i))
+        .toList();
+    return residents;
+  }
 }
 
 class Transaction {
@@ -97,4 +116,13 @@ class Transaction {
         "created_date": createddate,
         "updated_date": updateddate,
       };
+  static Future<List<Transaction>> getAll() async {
+    String jsonString =
+        await rootBundle.loadString('assets/data/transaction.json');
+
+    var transactions = (json.decode(jsonString) as List)
+        .map((i) => Transaction.fromJson(i))
+        .toList();
+    return transactions;
+  }
 }
