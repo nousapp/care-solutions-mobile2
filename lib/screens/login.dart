@@ -10,7 +10,8 @@ class Login extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(_client),
+        title: Text(_client), 
+        backgroundColor: Color(0xFF293D50),
       ),
       body: LoginBody(),
     );
@@ -42,6 +43,7 @@ class LoginBodyState extends State<LoginBody> {
           .toList();
       if (loginuser.length > 0) {
         Session.setKey('role', loginuser[0].role);
+        Session.setKey('user', loginuser[0].userid);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Scanner()),

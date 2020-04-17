@@ -53,5 +53,16 @@
 		"created_date" : null,
 		"updated_date" : null,
 		"sortname" : "Steffan, Robin"
+	},
+	{
+		"id" : 6,
+		"firstname" : "Arjun",
+		"middlename" : "",
+		"lastname" : "Verano",
+		"resident_id" : "AV000",
+		"room" : "000",
+		"created_date" : null,
+		"updated_date" : null,
+		"sortname" : "Verano, Arjun"
 	}
 ]

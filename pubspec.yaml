@@ -25,7 +25,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   qrscan: ^0.2.17
   shared_preferences:
-    
+  path_provider: ^1.6.5
+  intl: ^0.16.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
