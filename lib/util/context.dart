@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:care_solutions/util/nousbiz-api.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 
@@ -52,20 +54,41 @@ class User {
         "sortname": sortname
       };
   static Future<List<User>> getAll() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
+    try {
+      NousbizAPI _api = new NousbizAPI();
+      Response response = await _api.get("/users/");
 
-    var file = File('$path/user.json');
-
-    if (await file.exists() == false) {
-      String str = await rootBundle.loadString('assets/data/user.json');
-      await file.writeAsString(str);
+      if (response.statusCode == 200) {
+        String jsonString = response.body;
+        var users = (json.decode(jsonString) as List)
+            .map((i) => User.fromJson(i))
+            .toList();
+        return users;
+      } else {
+        return null;
+      }
+    } catch (ex) {
+      return null;
     }
+  }
 
-    String jsonString = await file.readAsString();
-    var users =
-        (json.decode(jsonString) as List).map((i) => User.fromJson(i)).toList();
-    return users;
+  static Future<String> login(String username, String password) async {
+    try {
+      NousbizAPI _api = new NousbizAPI();
+      Response response = await _api.post(
+          "/users/login/",
+          jsonEncode(
+              <String, String>{'username': username, 'password': password}));
+
+      if (response.statusCode == 201) {
+        String token = response.body;
+        return token;
+      } else {
+        return null;
+      }
+    } catch (ex) {
+      return null;
+    }
   }
 }
 

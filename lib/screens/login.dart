@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'scanner.dart';
+import 'dart:io';
 import 'package:care_solutions/util/context.dart';
 import 'package:care_solutions/util/session.dart';
 
@@ -10,7 +11,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(_client), 
+        title: Text(_client),
         backgroundColor: Color(0xFF293D50),
       ),
       body: LoginBody(),
@@ -28,6 +29,11 @@ class LoginBodyState extends State<LoginBody> {
   final _passwordController = TextEditingController();
   final _loginKey = GlobalKey<FormState>();
   String _error = "";
+  @override
+  void initState() {
+    super.initState();
+    checkConnectivity();
+  }
 
   void _login() async {
     setState(() {
@@ -35,15 +41,17 @@ class LoginBodyState extends State<LoginBody> {
     });
     if (_loginKey.currentState.validate()) {
       //Authenticate here
-      var users = await User.getAll();
-      var loginuser = users
-          .where((user) =>
-              user.userid == _usernameController.text &&
-              user.password == _passwordController.text)
-          .toList();
-      if (loginuser.length > 0) {
+      var token =
+          await User.login(_usernameController.text, _passwordController.text);
+
+      if (token != null) {
+        var users = await User.getAll();
+        var loginuser = users
+            .where((user) => user.userid == _usernameController.text)
+            .toList();
         Session.setKey('role', loginuser[0].role);
         Session.setKey('user', loginuser[0].userid);
+        Session.setKey('token', token);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Scanner()),
@@ -52,8 +60,22 @@ class LoginBodyState extends State<LoginBody> {
       } else {
         setState(() {
           _error = "User not found";
+          checkConnectivity();
         });
       }
+    }
+  }
+
+  void checkConnectivity() async {
+    try {
+      await InternetAddress.lookup('google.com');
+      //if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      //print('connected');
+      // }
+    } on SocketException catch (_) {
+      setState(() {
+        _error = "Connection to network not found.";
+      });
     }
   }
 
