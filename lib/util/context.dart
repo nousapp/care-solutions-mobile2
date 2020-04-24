@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class User {
   int id;
@@ -11,10 +12,8 @@ class User {
   String middlename;
   String lastname;
   String userid;
-  String password;
   String role;
-  String createddate;
-  String updateddate;
+  DateTime updateddate;
   String sortname;
 
   User()
@@ -23,10 +22,8 @@ class User {
         middlename = "",
         lastname = "",
         userid = "",
-        password = "",
         role = "",
-        createddate = "",
-        updateddate = "",
+        updateddate = null,
         sortname = "";
 
   User.fromJson(Map<String, dynamic> json)
@@ -35,10 +32,8 @@ class User {
         middlename = json['middlename'],
         lastname = json['lastname'],
         userid = json['user_id'],
-        password = json['password'],
         role = json['role'],
-        createddate = json['created_date'],
-        updateddate = json['updated_date'],
+        updateddate = DateTime.tryParse(json['updated_date'] ?? ""),
         sortname = json['sortname'];
 
   Map<String, dynamic> toJson() => {
@@ -47,10 +42,8 @@ class User {
         "middlename": middlename,
         "lastname": lastname,
         "user_id": userid,
-        "password": password,
         "role": role,
-        "created_date": createddate,
-        "updated_date": updateddate,
+        "updated_date": DateFormat('yyyy-MM-dd HH:mm').format(updateddate),
         "sortname": sortname
       };
   static Future<List<User>> getAll() async {
@@ -99,8 +92,8 @@ class Resident {
   String lastname;
   String residentid;
   String room;
-  String createddate;
-  String updateddate;
+  DateTime createddate;
+  DateTime updateddate;
   String sortname;
 
   Resident()
@@ -110,8 +103,8 @@ class Resident {
         lastname = "",
         residentid = "",
         room = "",
-        createddate = "",
-        updateddate = "",
+        createddate = null,
+        updateddate = null,
         sortname = "";
 
   Resident.fromJson(Map<String, dynamic> json)
@@ -121,8 +114,8 @@ class Resident {
         lastname = json['lastname'],
         residentid = json['resident_id'],
         room = json['room'],
-        createddate = json['created_date'],
-        updateddate = json['updated_date'],
+        createddate = DateTime.tryParse(json['created_date'] ?? ""),
+        updateddate = DateTime.tryParse(json['updated_date'] ?? ""),
         sortname = json['sortname'];
 
   Map<String, dynamic> toJson() => {
@@ -132,8 +125,8 @@ class Resident {
         "lastname": lastname,
         "resident_id": residentid,
         "room": room,
-        "created_date": createddate,
-        "updated_date": updateddate,
+        "created_date": DateFormat('yyyy-MM-dd HH:mm').format(createddate),
+        "updated_date": DateFormat('yyyy-MM-dd HH:mm').format(updateddate),
         "sortname": sortname
       };
   static Future<List<Resident>> getAll() async {
@@ -159,38 +152,38 @@ class Resident {
 class Transaction {
   int id;
   String servicecode;
-  String transdate;
+  DateTime transdate;
   String residentid;
   String userid;
-  String createddate;
-  String updateddate;
+  DateTime createddate;
+  DateTime updateddate;
 
   Transaction()
       : id = 0,
         servicecode = "",
-        transdate = "",
+        transdate = null,
         residentid = "",
         userid = "",
-        createddate = "",
-        updateddate = "";
+        createddate = null,
+        updateddate = null;
 
   Transaction.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         servicecode = json['service_code'],
-        transdate = json['trans_date'],
+        transdate = DateTime.tryParse(json['trans_date'] ?? ""),
         residentid = json['resident_id'],
         userid = json['user_id'],
-        createddate = json['created_date'],
-        updateddate = json['updated_date'];
+        createddate = DateTime.tryParse(json['created_date'] ?? ""),
+        updateddate = DateTime.tryParse(json['updated_date'] ?? "");
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => { 
         "id": id,
         "service_code": servicecode,
-        "trans_date": transdate,
+        "trans_date":  DateFormat('yyyy-MM-dd HH:mm').format(transdate),
         "resident_id": residentid,
         "user_id": userid,
-        "created_date": createddate,
-        "updated_date": updateddate,
+        "created_date":  (createddate == null? null :DateFormat('yyyy-MM-dd HH:mm').format(createddate)),//TEMP
+        "updated_date":  (updateddate == null? null :DateFormat('yyyy-MM-dd HH:mm').format(updateddate)),//TEMP
       };
   static Future<List<Transaction>> getAll() async {
     final directory = await getApplicationDocumentsDirectory();
@@ -232,28 +225,28 @@ class Service {
   int id;
   String servicecode;
   String servicename;
-  String createddate;
-  String updateddate;
+  DateTime createddate;
+  DateTime updateddate;
 
   Service()
       : id = 0,
         servicecode = "",
         servicename = "",
-        createddate = "",
-        updateddate = "";
+        createddate = null,
+        updateddate = null;
   Service.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         servicecode = json['service_code'],
         servicename = json['service_name'],
-        createddate = json['created_date'],
-        updateddate = json['updated_date'];
+        createddate = DateTime.tryParse(json['created_date'] ?? ""),
+        updateddate = DateTime.tryParse(json['updated_date'] ?? "");
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "service_code": servicecode,
         "service_name": servicename,
-        "created_date": createddate,
-        "updated_date": updateddate,
+        "created_date": DateFormat('yyyy-MM-dd HH:mm').format(createddate),
+        "updated_date": DateFormat('yyyy-MM-dd HH:mm').format(updateddate),
       };
   static Future<List<Service>> getAll() async {
     final directory = await getApplicationDocumentsDirectory();

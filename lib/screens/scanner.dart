@@ -39,7 +39,7 @@ class ScannerBodyState extends State<ScannerBody> {
 
   final _searchController = TextEditingController();
   final _searchKey = GlobalKey<FormState>();
-
+  String error = "";
   Future<String> _getCurrentUserRole() async {
     String out = await Session.getKey('role');
     return out;
@@ -55,6 +55,7 @@ class ScannerBodyState extends State<ScannerBody> {
         .toList();
 
     setState(() {
+      if (searchresult.length == 0) error = "Resident not found";
       _residentData = searchresult;
     });
   }
@@ -68,6 +69,7 @@ class ScannerBodyState extends State<ScannerBody> {
     setState(() {
       _residentData.clear();
       _searchController.text = "";
+      error = "";
     });
   }
 
@@ -86,7 +88,7 @@ class ScannerBodyState extends State<ScannerBody> {
     } else {
       return Center(
         child: Text(
-          "Resident not found",
+          error,
           style: TextStyle(color: Colors.red),
         ),
       );

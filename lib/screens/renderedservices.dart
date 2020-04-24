@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'selectservice.dart';
 import 'package:care_solutions/util/context.dart';
+import 'package:intl/intl.dart';
 
 class RenderedServices extends StatelessWidget {
   RenderedServices(this.resident);
@@ -75,7 +76,7 @@ class RenderedServicesBodyState extends State<RenderedServicesBody> {
         Container(
           padding: EdgeInsets.all(10),
           child:
-              Text(transaction.transdate == null ? "" : transaction.transdate),
+              Text(transaction.transdate == null ? "" : DateFormat('MM/dd/yy HH:mm').format(transaction.transdate)),
         ),
         Container(
           padding: EdgeInsets.all(10),
@@ -91,7 +92,7 @@ class RenderedServicesBodyState extends State<RenderedServicesBody> {
     var renderedservices = transactions
         .where((transaction) => transaction.residentid == residentId)
         .toList();
-
+    renderedservices.sort((a, b) => b.transdate.compareTo(a.transdate));
     return renderedservices;
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:care_solutions/util/context.dart';
 import 'package:care_solutions/util/session.dart';
-import 'package:intl/intl.dart';
 
 class SelectService extends StatelessWidget {
   SelectService(this.resident);
@@ -76,10 +75,10 @@ class SelectServiceBodyState extends State<SelectServiceBody> {
                     child: Text("Yes"),
                     onPressed: () async {
                       var transaction = new Transaction();
-                      var formatter = new DateFormat('MM/dd/yy HH:mm');
-                      String transdate = formatter.format(DateTime.now());
                       transaction.servicecode = service.servicecode;
-                      transaction.transdate = transdate;
+                      transaction.transdate = DateTime.now();
+                      transaction.createddate = DateTime.now();
+                      transaction.updateddate = DateTime.now();
                       transaction.residentid = resident.residentid;
                       transaction.userid = await Session.getKey('user');
                       await Transaction.add(transaction);
